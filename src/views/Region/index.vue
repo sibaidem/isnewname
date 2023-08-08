@@ -1,6 +1,6 @@
 <template>
-    <div> 
-       userlist
+    <div>
+       区域管理
     </div>
 </template>
 
