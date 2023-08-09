@@ -1,38 +1,80 @@
 <template>
-    客户分类
-    <br />
-    <br />
-    <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="120px" class="demo-ruleForm" :size="formSize"
-        status-icon>
-        <el-form-item label="上级分类" prop="region">
-            <el-select v-model="ruleForm.region" placeholder="">
-                <el-option label="Zone one" value="shanghai" />
-                <el-option label="Zone two" value="beijing" />
-            </el-select>
-        </el-form-item>
-        <el-form-item label="分类名称" prop="name">
-            <el-input v-model="ruleForm.name" />
-        </el-form-item>
-        <el-form-item label="所属商户" prop="count">
-            <el-select-v2 v-model="ruleForm.count" placeholder="所属商户" :options="options" />
-        </el-form-item>
-        <el-form-item label="是否启用" prop="delivery">
-            <el-switch v-model="ruleForm.delivery" />
-        </el-form-item>
+    <el-row class="top1">
+        <el-col :span="5">
+            <span>分类名称:
+                <el-autocomplete :trigger-on-focus="false" clearable class="inline-input w-50" placeholder="输入分类名称" />
+            </span>
+        </el-col>
+        <el-col :span="4">
+            <span>所属商户:
 
-        <el-form-item>
-            <el-button type="primary" @click="submitForm(ruleFormRef)">
-                保存
-            </el-button>
-            <el-button @click="resetForm(ruleFormRef)">取消</el-button>
-        </el-form-item>
-    </el-form>
+            </span>
+        </el-col>
+        <el-col :span="4">
+            <span>是否启用:
+
+                <el-select v-model="value" class="m-2" placeholder="Select" size="large">
+                    <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+                </el-select>
+            </span>
+        </el-col>
+        <el-col :span="2">
+            <el-button type="primary">查询</el-button>
+        </el-col>
+        <el-col :span="2">
+            <el-button type="info">重置</el-button>
+        </el-col>
+    </el-row>
+
+    <el-button text @click="centerDialogVisible = true">
+        新增客户分类
+    </el-button>
+
+    <el-dialog v-model="centerDialogVisible" title="新增客户分类" width="30%" align-center>
+        <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="120px" class="demo-ruleForm"
+            :size="formSize" status-icon>
+            <el-form-item label="上级分类" prop="region">
+                <el-select v-model="ruleForm.region" placeholder="流动商店">
+                    <el-option label="流动商店" value="shanghai" />
+                    <el-option label="固定商店" value="beijing" />
+                </el-select>
+            </el-form-item>
+            <el-form-item label="分类名称" prop="name">
+                <el-input v-model="ruleForm.name" />
+            </el-form-item>
+            <el-form-item label="所属商户" prop="count">
+                <el-select v-model="ruleForm.count" placeholder="所属商户">
+                    <el-option label="商户1" value="shanghai" />
+                    <el-option label="商户2" value="beijing" />
+                </el-select>
+            </el-form-item>
+            <el-form-item label="是否启用" prop="delivery">
+                <el-switch v-model="ruleForm.delivery" />
+            </el-form-item>
+
+            <el-form-item>
+                <el-button type="primary" @click="submitForm(ruleFormRef)">
+                    保存
+                </el-button>
+                <el-button @click="resetForm(ruleFormRef)">取消</el-button>
+            </el-form-item>
+        </el-form>
+        <!-- <template #footer>
+            <span class="dialog-footer">
+                <el-button @click="centerDialogVisible = false">取消</el-button>
+                <el-button type="primary" @click="centerDialogVisible = false">
+                    保存
+                </el-button>
+            </span>
+        </template> -->
+    </el-dialog>
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 
+const centerDialogVisible = ref(false)
 interface RuleForm {
     name: string
     region: string
@@ -44,6 +86,23 @@ interface RuleForm {
     resource: string
     desc: string
 }
+
+const value = ref('')
+
+const options = [
+    {
+        value: '全部',
+        label: '全部',
+    },
+    {
+        value: '启用中',
+        label: '启用中',
+    },
+    {
+        value: '停用中',
+        label: '停用中',
+    }
+]
 
 const formSize = ref('default')
 const ruleFormRef = ref<FormInstance>()
@@ -61,20 +120,20 @@ const ruleForm = reactive<RuleForm>({
 
 const rules = reactive<FormRules<RuleForm>>({
     name: [
-        { required: true, message: 'Please input Activity name', trigger: 'blur' },
+        { required: true, message: '请输入分类名称', trigger: 'blur' },
         { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
     ],
     region: [
         {
             required: true,
-            message: 'Please select Activity zone',
+            message: '请选择上级分类',
             trigger: 'change',
         },
     ],
     count: [
         {
             required: true,
-            message: 'Please select Activity count',
+            message: '请选择所属商户',
             trigger: 'change',
         },
     ],
@@ -130,10 +189,37 @@ const resetForm = (formEl: FormInstance | undefined) => {
     formEl.resetFields()
 }
 
-const options = Array.from({ length: 10000 }).map((_, idx) => ({
-    value: `${idx + 1}`,
-    label: `${idx + 1}`,
-}))
+// const options = Array.from({ length: 10000 }).map((_, idx) => ({
+//     value: `${idx + 1}`,
+//     label: `${idx + 1}`,
+// }))
 </script>
 
-<style scoped></style>
+<style scoped>
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.text {
+    font-size: 14px;
+}
+
+.item {
+    margin-bottom: 18px;
+}
+
+.box-card {
+    width: 800px;
+}
+
+.dialog-footer button:first-child {
+    margin-right: 10px;
+}
+
+.top1 {
+    padding: 20px 0px;
+    border-bottom: 1px solid #ccc;
+}
+</style>
