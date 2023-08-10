@@ -1,225 +1,304 @@
 <template>
-    <el-row class="top1">
-        <el-col :span="5">
-            <span>分类名称:
-                <el-autocomplete :trigger-on-focus="false" clearable class="inline-input w-50" placeholder="输入分类名称" />
-            </span>
-        </el-col>
-        <el-col :span="4">
-            <span>所属商户:
-
-            </span>
-        </el-col>
-        <el-col :span="4">
-            <span>是否启用:
-
-                <el-select v-model="value" class="m-2" placeholder="Select" size="large">
-                    <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-                </el-select>
-            </span>
-        </el-col>
-        <el-col :span="2">
-            <el-button type="primary">查询</el-button>
-        </el-col>
-        <el-col :span="2">
-            <el-button type="info">重置</el-button>
-        </el-col>
-    </el-row>
-
-    <el-button text @click="centerDialogVisible = true">
-        新增客户分类
-    </el-button>
-
-    <el-dialog v-model="centerDialogVisible" title="新增客户分类" width="30%" align-center>
-        <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="120px" class="demo-ruleForm"
-            :size="formSize" status-icon>
-            <el-form-item label="上级分类" prop="region">
-                <el-select v-model="ruleForm.region" placeholder="流动商店">
-                    <el-option label="流动商店" value="shanghai" />
-                    <el-option label="固定商店" value="beijing" />
-                </el-select>
-            </el-form-item>
-            <el-form-item label="分类名称" prop="name">
-                <el-input v-model="ruleForm.name" />
-            </el-form-item>
-            <el-form-item label="所属商户" prop="count">
-                <el-select v-model="ruleForm.count" placeholder="所属商户">
-                    <el-option label="商户1" value="shanghai" />
-                    <el-option label="商户2" value="beijing" />
-                </el-select>
-            </el-form-item>
-            <el-form-item label="是否启用" prop="delivery">
-                <el-switch v-model="ruleForm.delivery" />
-            </el-form-item>
-
-            <el-form-item>
-                <el-button type="primary" @click="submitForm(ruleFormRef)">
-                    保存
-                </el-button>
-                <el-button @click="resetForm(ruleFormRef)">取消</el-button>
-            </el-form-item>
-        </el-form>
-        <!-- <template #footer>
-            <span class="dialog-footer">
-                <el-button @click="centerDialogVisible = false">取消</el-button>
-                <el-button type="primary" @click="centerDialogVisible = false">
-                    保存
-                </el-button>
-            </span>
-        </template> -->
-    </el-dialog>
-</template>
-
-<script setup lang="ts">
-import { reactive, ref } from 'vue'
-import type { FormInstance, FormRules } from 'element-plus'
-
-const centerDialogVisible = ref(false)
-interface RuleForm {
-    name: string
-    region: string
-    count: string
-    date1: string
-    date2: string
-    delivery: boolean
-    type: string[]
-    resource: string
-    desc: string
-}
-
-const value = ref('')
-
-const options = [
-    {
-        value: '全部',
-        label: '全部',
-    },
-    {
-        value: '启用中',
-        label: '启用中',
-    },
-    {
-        value: '停用中',
-        label: '停用中',
-    }
-]
-
-const formSize = ref('default')
-const ruleFormRef = ref<FormInstance>()
-const ruleForm = reactive<RuleForm>({
-    name: 'Hello',
-    region: '',
-    count: '',
-    date1: '',
-    date2: '',
-    delivery: false,
-    type: [],
-    resource: '',
-    desc: '',
-})
-
-const rules = reactive<FormRules<RuleForm>>({
-    name: [
-        { required: true, message: '请输入分类名称', trigger: 'blur' },
-        { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
-    ],
-    region: [
-        {
-            required: true,
-            message: '请选择上级分类',
-            trigger: 'change',
-        },
-    ],
-    count: [
-        {
-            required: true,
-            message: '请选择所属商户',
-            trigger: 'change',
-        },
-    ],
-    date1: [
-        {
-            type: 'date',
-            required: true,
-            message: 'Please pick a date',
-            trigger: 'change',
-        },
-    ],
-    date2: [
-        {
-            type: 'date',
-            required: true,
-            message: 'Please pick a time',
-            trigger: 'change',
-        },
-    ],
-    type: [
-        {
-            type: 'array',
-            required: true,
-            message: 'Please select at least one activity type',
-            trigger: 'change',
-        },
-    ],
-    resource: [
-        {
-            required: true,
-            message: 'Please select activity resource',
-            trigger: 'change',
-        },
-    ],
-    desc: [
-        { required: true, message: 'Please input activity form', trigger: 'blur' },
-    ],
-})
-
-const submitForm = async (formEl: FormInstance | undefined) => {
-    if (!formEl) return
-    await formEl.validate((valid, fields) => {
-        if (valid) {
-            console.log('submit!')
-        } else {
-            console.log('error submit!', fields)
-        }
-    })
-}
-
-const resetForm = (formEl: FormInstance | undefined) => {
-    if (!formEl) return
-    formEl.resetFields()
-}
-
-// const options = Array.from({ length: 10000 }).map((_, idx) => ({
-//     value: `${idx + 1}`,
-//     label: `${idx + 1}`,
-// }))
-</script>
-
-<style scoped>
-.card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.text {
-    font-size: 14px;
-}
-
-.item {
-    margin-bottom: 18px;
-}
-
-.box-card {
-    width: 800px;
-}
-
-.dialog-footer button:first-child {
-    margin-right: 10px;
-}
-
-.top1 {
-    padding: 20px 0px;
-    border-bottom: 1px solid #ccc;
-}
-</style>
+    <div >
+          <div class="flx all">
+                <div class="flx">
+                     <span>分类名称：</span>
+                  <div class="input1">
+                     <el-input  v-model="input" placeholder="请输分类名称" clearable />
+                  </div>
+                </div>
+                <div>
+                  <span>是否启用: </span>
+                  <el-select v-model="useValue" placeholder="全部">
+                    <el-option
+                      v-for="item in options"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                      :disabled="item.disabled"
+                      />
+                  </el-select>
+                </div>
+                <div class="person">
+                  <span>所属商户: </span>
+                  <el-select v-model="personValue" placeholder="请选择">
+                    <el-option
+                      v-for="item in optionsPerson"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                      :disabled="item.disabled"
+                      />
+                  </el-select>
+                </div>
+     <div class="btn">
+     <span class="btnQuery"><el-button type="primary">查询</el-button> </span>
+     <span class="btnReset"></span><el-button >重置</el-button> 
+    </div> 
+   </div>
+     <hr>
+     <div class="btnAdd">
+     <el-button type="primary" @click="addWorker">新增分类</el-button > 
+     </div>
+ <!-- ====新增商店=== -->
+ <el-dialog
+     v-model="dialogVisible"
+     title="新增客户分类"
+     width="80%"
+     :before-close="handleClose"
+   >
+   <hr> 
+   <el-row class="addUser">
+     <el-col :span="2"></el-col>
+     <el-col :span="8">
+        上级分类：<el-input></el-input>
+        分类名称：<el-input placeholder="请输入分类名称"></el-input>
+        卡号所属商户：<el-input></el-input>
+        是否启用：<el-checkbox v-model="checked1" label="启用" size="large" />
+     </el-col>
+   </el-row>
+     <template #footer>
+       <span class="dialog-footer">
+         <el-button @click="dialogVisible = false">取消</el-button>
+         <el-button type="primary" @click="dialogVisible = false">
+          确认
+         </el-button>
+       </span>
+     </template>
+   </el-dialog>
+ 
+   <!-- ============渲染表格============= -->
+   <el-table :data="tableData" stripe style="width: 100%" border>
+     <el-table-column prop="number" label="" width="100" />
+     <el-table-column prop="EmployeeId" label="分类名称" width="180" />
+     <el-table-column prop="EmployeeNumber" label="上级" width="180" />
+     <el-table-column prop="Merchant" label="所属商户" width="180" />
+     <el-table-column prop="isUse" label="是否启用" width="180" />
+     <el-table-column prop="createTime" label="创建时间" width="180" />
+     <el-table-column label="操作">
+       <template #default="scope">
+         <el-button size="small" @click="handleEdit(scope.$index, scope.row)"
+           >编辑</el-button
+         >
+         <el-button
+           size="small"
+           type="danger"
+           @click="handleDelete(scope.$index, scope.row)"
+           >删除</el-button
+         >
+         <el-button size="small" @click="handleEdit(scope.$index, scope.row)"
+           >停用</el-button
+         >
+         <!-- <el-button size="small" @click="handleEdit(scope.$index, scope.row)"
+           >重置密码</el-button
+         > -->
+       </template>
+     </el-table-column>
+ 
+     <!--  =======编辑界面===========   -->
+ 
+   </el-table>
+   <!-- =====分页功能===== -->
+   <div class="demo-pagination-block">
+     <div class="demonstration">跳转</div>
+     <el-pagination
+       v-model:current-page="currentPage3"
+       v-model:page-size="pageSize3"
+       :small="small"
+       :disabled="disabled"
+       :background="background"
+       layout="prev, pager, next, jumper"
+       :total="1000"
+       @size-change="handleSizeChange"
+       @current-change="handleCurrentChange"
+     />
+   </div>
+ </div>
+ </template>
+ 
+ <script setup lang="ts">
+ import { reactive, ref } from 'vue'
+ const input = ref('');
+ const options = [
+   {
+     value: '启用',
+     label: '启用',
+   },
+   {
+     value: '禁用',
+     label: '禁用',
+     /* disabled: true, */
+   },
+ ]
+ const options3 = [
+     {
+         value :"宝骏",
+         label : '宝骏'
+     },
+     {
+         value :"大众",
+         label : '大众'
+     },
+ ]
+ // 所属商户
+ const personValue = ref('')
+ const optionsPerson =[
+ {
+         value :"宝骏",
+         label : '宝骏'
+     },
+     {
+         value :"大众",
+         label : '大众'
+     },
+ ]
+ //新增门店
+ const dialogVisible = ref(false)
+ const addWorker = ()=>{
+     dialogVisible.value = true
+ 
+ }
+ // table表格
+ const tableData = [
+   {
+     number : '1',
+     EmployeeId: '家电类客户',
+     EmployeeNumber: '其他类',
+     Merchant: '大众',
+     isUse: '启用中',
+     createTime: '2021-10-21 11:22:12',
+   },
+   {
+     number : '2',
+     EmployeeId: '大客户类',
+     EmployeeNumber: '',
+     Merchant: '宝骏',
+     isUse: '启用中',
+     createTime: '2021-10-21 11:22:12',
+   },
+   {
+     number : '3',
+     EmployeeId: '家电类客户',
+     EmployeeNumber: '其他类',
+     Merchant: '大众',
+     isUse: '禁用中',
+     createTime: '2021-10-21 11:22:12',
+   },
+   {
+     number : '4',
+     EmployeeId: '家电类客户',
+     EmployeeNumber: '其他类',
+     Merchant: '大众',
+     isUse: '启用中',
+     createTime: '2021-10-21 11:22:12',
+   },
+   {
+     number : '5',
+     EmployeeId: '家电类客户',
+     EmployeeNumber: '其他类',
+     Merchant: '大众',
+     isUse: '启用中',
+     createTime: '2021-10-21 11:22:12',
+   }
+ ]
+ 
+ //删除功能
+ import { ElMessage, ElMessageBox } from 'element-plus'
+ const handleDelete = () =>{
+     ElMessageBox.confirm(
+     '是否进行删除',
+     '警告',
+     {
+       confirmButtonText: '确定',
+       cancelButtonText: '取消',
+       type: 'warning',
+     }
+   )
+     .then(() => {
+       ElMessage({
+         type: 'success',
+         message: '删除成功',
+       })
+     })
+     .catch(() => {
+       ElMessage({
+         type: 'error',
+         message: '删除失败',
+       })
+     })
+ }
+ // 禁用
+ const useValue = ref('')
+ // .then(() => {
+ //       deleteGoods(b.goods_id).then(res => {
+ //         if (res.data.meta.status === 200) {
+ //           ElMessage({
+ //             type: 'success',
+ //             message: '删除成功',
+ //           })
+ //           SelectGoods()
+ //         } else {
+ //           ElMessage({
+ //             type: 'info',
+ //             message: '删除失败',
+ //           })
+ //         }
+ //       })
+ //     })
+ // }
+ // 多选框
+ const checked1 = ref(true);
+ const checked2 = ref(true);
+ //分页功能
+ const currentPage1 = ref(5)
+ const currentPage2 = ref(5)
+ const currentPage3 = ref(5)
+ const currentPage4 = ref(4)
+ const pageSize2 = ref(100)
+ const pageSize3 = ref(100)
+ const pageSize4 = ref(100)
+ const small = ref(false)
+ const background = ref(false)
+ const disabled = ref(false)
+ 
+ const handleSizeChange = (val: number) => {
+   console.log(`${val} items per page`)
+ }
+ const handleCurrentChange = (val: number) => {
+   console.log(`current page: ${val}`)
+ }
+ //编辑功能
+ const handleEdit = () => {
+     
+ 
+ }
+ </script>
+ 
+ <style scoped>
+ 
+ .flx{
+   display: flex;
+ }
+ .input1{
+   width: 60%;
+   margin-left: 10px;
+ }
+ .btn{
+   margin-bottom: 20px;
+ }
+ .all{
+   margin-top: 20px;
+ }
+ .el-select {
+   width: 40%;
+ }
+ .btnQuery{
+   margin-right: 50px;
+ }
+ .btnAdd{
+   margin: 20px auto;
+ }
+ .person{
+   margin-left: -75px;
+ }
+ </style>
