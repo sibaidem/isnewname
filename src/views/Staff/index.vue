@@ -51,27 +51,55 @@
 <el-dialog
     v-model="dialogVisible"
     title="新增用户"
-    width="80%"
+    width="60%"
     :before-close="handleClose"
   >
   <hr> 
+  
   <el-row class="addUser">
     <el-col :span="2"></el-col>
     <el-col :span="8">
-       员工编号：<el-input></el-input>
-       员工账号：<el-input></el-input>
-       卡号：<el-input placeholder="请输入卡号"></el-input>
-       是否启用：<el-checkbox v-model="checked1" label="启用" size="large" />
+      <div class="flx distance">
+        <span>员工编号:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div><el-input></el-input></div>
+      </div>
+      <div class="flx distance">
+        <span>员工账号:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div><el-input></el-input></div>
+      </div>
+      <div class="flx distance">
+        <span> 卡号:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div><el-input placeholder="请输入卡号"></el-input></div>
+      </div>
+      <div class="check">
+      是否启用：&nbsp;&nbsp;
+      <el-checkbox v-model="checked1" label="启用" size="large" />
+    </div>
     </el-col>
     <el-col :span="4"></el-col>
     <el-col :span="8">
-      所属商户：<el-input></el-input>
-      员工姓名：<el-input></el-input>
-      手机：<el-input></el-input>
-      是否盲交：<el-checkbox v-model="checked2" label="盲交" size="large" />
+      <div class="flx distance">
+        <span>所属商户：</span>&nbsp;&nbsp;&nbsp;&nbsp;
+        <div>
+          <el-input></el-input>
+        </div>
+      </div>
+     <div class="flx distance">
+      <span>员工姓名：</span>&nbsp;&nbsp;&nbsp;
+      <div><el-input></el-input></div>
+     </div>
+     <div class="flx distance">
+      <span>手机：</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <div><el-input></el-input></div>
+     </div>
+     <div class="check">
+      是否盲交：&nbsp;&nbsp;
+      <el-checkbox v-model="checked2" label="盲交" size="large" />
+    </div>
     </el-col>
     <el-col :span="3"></el-col>
   </el-row>
+
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">取消</el-button>
@@ -347,5 +375,11 @@ const handleEdit = () => {
 }
 .person{
   margin-left: -75px;
+}
+.distance{
+  margin-top: 20px;
+}
+.addUserIcon{
+  
 }
 </style>
