@@ -1,40 +1,50 @@
 <template>
    <div >
-      <el-row class="all">
-        <el-col  :span = '4'>
-            <span >
-                员工编号：
-                <el-autocomplete  v-model="input" placeholder="请输入员工编号" clearable />
-            </span>
-        </el-col>
-        <el-col :span="4">
-            <span >员工姓名:
-                <el-autocomplete v-model="input" placeholder="请输入员姓名" clearable />
-            </span>
-       </el-col >
-       <el-col :span="5">
-       <span >
-        是否启用:
-    <el-select v-model="useValue" placeholder="全部">
-      <el-option
-        v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-        :disabled="item.disabled"
-        />
-    </el-select>
-</span>
-</el-col>
-  <el-col :span="1">
-    <el-button type="primary">查询</el-button> 
-  </el-col>
-<el-col :span="1">
-    <el-button >重置</el-button>   
-</el-col>
-</el-row>
-    <hr>
+         <div class="flx all">
+              <div class="flx">
+                    <span>员工编号：</span>
+                 <div class="input1">
+                    <el-input  v-model="input" placeholder="请输入员工编号" clearable />
+                 </div>
+               </div>
+
+               <div class="flx">
+                    <span>员工姓名：</span>
+                 <div class="input1">
+                    <el-input  v-model="input" placeholder="请输入员姓名" clearable />
+                 </div>
+               </div>
+               <div>
+                 <span>是否启用: </span>
+                 <el-select v-model="useValue" placeholder="全部">
+                   <el-option
+                     v-for="item in options"
+                     :key="item.value"
+                     :label="item.label"
+                     :value="item.value"
+                     :disabled="item.disabled"
+                     />
+                 </el-select>
+               </div>
+               <div class="person">
+                 <span>所属商户: </span>
+                 <el-select v-model="personValue" placeholder="请选择">
+                   <el-option
+                     v-for="item in optionsPerson"
+                     :key="item.value"
+                     :label="item.label"
+                     :value="item.value"
+                     :disabled="item.disabled"
+                     />
+                 </el-select>
+               </div>
     <div class="btn">
+    <span class="btnQuery"><el-button type="primary">查询</el-button> </span>
+    <span class="btnReset"></span><el-button >重置</el-button> 
+   </div> 
+  </div>
+    <hr>
+    <div class="btnAdd">
     <el-button type="primary" @click="addWorker">新增员工</el-button > 
     </div>
 <!-- ====新增商店=== -->
@@ -103,7 +113,7 @@
     </el-table-column>
 
     <!--  =======编辑界面===========   -->
-    
+
   </el-table>
   <!-- =====分页功能===== -->
   <div class="demo-pagination-block">
@@ -139,6 +149,18 @@ const options = [
 ]
 const options3 = [
     {
+        value :"宝骏",
+        label : '宝骏'
+    },
+    {
+        value :"大众",
+        label : '大众'
+    },
+]
+// 所属商户
+const personValue = ref('')
+const optionsPerson =[
+{
         value :"宝骏",
         label : '宝骏'
     },
@@ -301,14 +323,29 @@ const handleEdit = () => {
 
 <style scoped>
 
-.el-table{
-    margin-top: 20px;
+.flx{
+  display: flex;
 }
-.all{
-  margin: 20px auto;
+.input1{
+  width: 60%;
+  margin-left: 10px;
 }
 .btn{
+  margin-bottom: 20px;
+}
+.all{
   margin-top: 20px;
 }
-
+.el-select {
+  width: 40%;
+}
+.btnQuery{
+  margin-right: 50px;
+}
+.btnAdd{
+  margin: 20px auto;
+}
+.person{
+  margin-left: -75px;
+}
 </style>

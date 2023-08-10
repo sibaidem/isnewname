@@ -48,11 +48,12 @@ const rules = reactive({
   ],
 })
 // 登录功能
-const router = useRoute()
+import {useRouter} from 'vue-router'
+const router = useRouter()
 const handleLogin = () => {
   if (ruleForm.password == '123123' && ruleForm.username == '111111') {
     ElMessage.success('登陆成功')
-    router.push('/')
+    router.push('/index')
   } else {
     ElMessage.error('登录失败')
   }
