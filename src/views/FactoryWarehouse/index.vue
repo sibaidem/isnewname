@@ -49,17 +49,17 @@
       <hr>
       <div class="addStoreIcon">
       <div class="flx distance">
-        <span>   仓库编号：</span>&nbsp;&nbsp;
+        <span>仓库编号：</span>
         <div class="input1">
           <el-input placeholder="请输入仓库编号"></el-input>
         </div>
       </div>
       <div class="flx distance">
-        <span>仓库名称：</span>&nbsp;&nbsp;&nbsp;&nbsp;
+        <span>仓库名称：</span>&nbsp;&nbsp;
         <div><el-input placeholder="请输入仓库名称"></el-input></div>
       </div>
       <div class="flx distance">
-        <span>所属商户：</span>&nbsp;&nbsp;&nbsp;&nbsp;
+        <span>所属商户：</span>&nbsp;&nbsp;
         <div>
           <el-select v-model="storeValue" placeholder="请选择">
           <el-option v-for="item in options5" :key="item.value" :label="item.label" :value="item.value"
@@ -68,13 +68,13 @@
         </div>
       </div>
       <div class="flx distance">
-        <span>联系人 :</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span>联系人：</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <div>
           <el-input placeholder="请输入联系人姓名"> </el-input>
         </div>
       </div>
       <div class="flx distance">
-        <span>手机：</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span>手机：</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <div>
           <el-input placeholder="请输入手机号码"> </el-input>
         </div>
